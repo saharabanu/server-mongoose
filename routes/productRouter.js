@@ -25,7 +25,7 @@ router.get("", async (req, res) => {
 });
 // get find same name or others product api
 router.get("/findProduct", async (req, res) => {
-  const data = await Product.find({ name: "Ear Ring" }).limit(1).select({
+  const data = await Product.find({ name: "dbandert" }).limit(2).select({
     _id: 0,
     created: 0,
   });
@@ -67,12 +67,14 @@ router.patch("/:id", async (req, res) => {
 // update product without using id
 router.put("/update", async (req, res) => {
   const name = req.body.name;
+  const price = req.body.price;
   const data = await Product.updateOne(
-    { name: name },
+    { $set: { name: name } },
     {
       $set: { price: req.body.price },
     }
   );
+  console.log(data);
   if (data) {
     res.status(200).json({ message: "Product Updated", data });
   } else {
